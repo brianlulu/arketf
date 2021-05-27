@@ -2,10 +2,6 @@
 {% block content %}
     <div>
         <h2>ARK ETF HOME</h2> 
-        {% for stock in stocks %}
-             <h4>{{ stock.name }} : {{ stock.ticker }}</h4>
-             <p> Trade at {{ stock.price }}</p>
-        {% endfor %}
     </div>
 
 {% endblock content %}
