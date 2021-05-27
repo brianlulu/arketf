@@ -1,0 +1,41 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div>
+        <h1>ARK ETF DAILY TRADE</h1> 
+        
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-dark">
+                        <th scope="col">Stock</th>
+                        <th scope="col">Ticker</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Direction</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Market Cap</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in stocks %}
+                        <tr class="table-success">
+                            <th scope="row" name="name">{{ stock.name }}</th>
+                            <td name="ticker">{{ stock.ticker }}</td>
+                            <td name="date"></td>
+                            <td name="direction">Buy</td>
+                            <td name="price">{{ stock.price }}</td>
+                            <td name="marketCap"></td>
+                        </tr>
+                        <!-- <tr class="table-danger">
+                            <th scope="row">Sell</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr> -->
+                    {% endfor %}
+                </tbody>
+            </table>
+        
+
+        
+    </div>
+
+{% endblock content %}
