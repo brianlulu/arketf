@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Stock
+from .models import Stock, Trade
 
 stocks = [
     {
@@ -17,7 +17,7 @@ stocks = [
     },
 ]
 
-fund = [
+trade = [
     {
         'name': 'ARKK',
         'holdings': ['Tesla', 'Microsoft']
@@ -34,8 +34,8 @@ def about(request):
 
 def dailytrade(request):
     
-    holding = {
-        'stocks': Stock.objects.all()
+    trades = {
+        'trades': Trade.objects.all()
     }
 
-    return render(request, 'main/dailytrade.html', holding, {'title': 'DailyTrade'})
+    return render(request, 'main/dailytrade.html', trades, {'title': 'DailyTrade'})

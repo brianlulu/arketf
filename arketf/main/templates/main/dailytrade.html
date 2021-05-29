@@ -11,25 +11,33 @@
                         <th scope="col">Date</th>
                         <th scope="col">Direction</th>
                         <th scope="col">Price</th>
-                        <th scope="col">Market Cap</th>
+                        <th scope="col">Shares</th>
+                        <th scope="col">Funds</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    {% for stock in stocks %}
-                        <tr class="table-success">
-                            <th scope="row" name="name">{{ stock.name }}</th>
-                            <td name="ticker">{{ stock.ticker }}</td>
-                            <td name="date"></td>
-                            <td name="direction">Buy</td>
-                            <td name="price">{{ stock.price }}</td>
-                            <td name="marketCap"></td>
-                        </tr>
-                        <!-- <tr class="table-danger">
-                            <th scope="row">Sell</th>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                            <td>Column content</td>
-                        </tr> -->
+                    {% for trade in trades %}
+                        {% if trade.direction == 'Buy' %}
+                            <tr class="table-success">
+                                <th scope="row" name="name">{{ trade.stock.name }}</th>
+                                <td name="ticker">{{ trade.stock.ticker }}</td>
+                                <td name="date">{{ trade.date | date:"F d, Y"}}</td>
+                                <td name="direction">Buy</td>
+                                <td name="price">{{ trade.stock.price }}</td>
+                                <td name="share">{{ trade.shares }}</td>
+                                <td name="fund">ARK</td>
+                            </tr>
+                        {% else %}
+                            <tr class="table-danger">
+                                <th scope="row" name="name">{{ trade.stock.name }}</th>
+                                <td name="ticker">{{ trade.stock.ticker }}</td>
+                                <td name="date">{{ trade.date | date:"F d, Y"}}</td>
+                                <td name="direction">Sell</td>
+                                <td name="price">{{ trade.stock.price }}</td>
+                                <td name="share">{{ trade.shares }}</td>
+                                <td name="fund">ARK</td>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
