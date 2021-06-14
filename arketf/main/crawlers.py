@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
+
+
 def gmail_login(driver, username, password):
 
     driver.get("https://accounts.google.com/")
@@ -73,6 +75,7 @@ if __name__ == "__main__":
     driver = webdriver.Chrome(PATH, options = chrome_options)
 
     gmail_login(driver, username, password)
+
 
     daily_mail = daily_search(driver, email_search)
 
