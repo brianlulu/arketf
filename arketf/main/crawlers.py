@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import requests
 
 
 
@@ -59,6 +60,16 @@ def previous_content():
     previous_mail_content = driver.find_elements_by_tag_name('blockquote')
 
     return previous_mail_content
+
+
+def stock_info(ticker):
+
+    url = 'https://finance.yahoo.com/quote/' + ticker
+
+    html = requests.get(url)
+
+    return html
+    
 
 
 if __name__ == "__main__":
