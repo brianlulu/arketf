@@ -1,6 +1,7 @@
 import pandas as pd
-from .models import Stock, Trade
+from .models import *
 import yfinance as yf
+from datetime import datetime
 
 #TODO: Fix updating price twice if there are two same ticker trades per date!
 #TODO: Fix efficiency? Maybe?
@@ -45,7 +46,7 @@ def parse_daily_content(html_content):
     df.to_csv(path, index= False)
 
 
-def save_to_db(csv_path):
+def save_daily_trade(csv_path):
 
     df = pd.read_csv(csv_path)
 
@@ -53,27 +54,37 @@ def save_to_db(csv_path):
         
         print(str(index) + 'th data entry!')
         # if stock exist in db, then update price
-        if Stock.objects.filter(ticker = row.Ticker).exists():
+        if Stock.objects.filter(cusip = row.CUSIP).exists():
 
-            print(row.Ticker + ' existed in database. Updating price!')
-            
-            stock = Stock.objects.get(ticker = row.Ticker)
-            update_price = yf.Ticker(row.Ticker).info.get('previousClose')
-            stock.price = update_price
-            stock.save()
+            Trade.objects.create(
+                stock = Stock.objects.get(cusip = row.CUSIP),
+                date = datetime.strptime(row.Date, '%m/%d/%Y'),
+                direction = row.Direction,
+                shares = int(row.Shares.replace(',', '')),
+                fund = Fund.objects.get(ticker = row.Fund), #TODO: if fund does not exist create one?
+                etf_percent = float(row[8])
+            )
 
         else:
             
-            print('Creating' + row.Ticker + ' Stock Object!')
+            print('Creating ' + row.Ticker + ' Stock Object!')
             stock_info = yf.Ticker(row.Ticker).info
-            stock = Stock(
+            Stock.objects.create(
                 name = row.Company, 
                 ticker = row.Ticker,
                 price = stock_info.get('previousClose'),
                 market_cap = stock_info.get('marketCap'),
                 cusip = row.CUSIP
                 )
-            stock.save()
+
+            Trade.objects.create(
+                stock = Stock.objects.get(cusip = row.CUSIP),
+                date = datetime.strptime(row.Date, '%m/%d/%Y'),
+                direction = row.Direction,
+                shares = int(row.Shares.replace(',', '')),
+                fund = Fund.objects.get(ticker = row.Fund), #TODO: if fund does not exist create one?
+                etf_percent = float(row[8])
+            )
 
 if __name__ == '__main__':
 
