@@ -89,5 +89,3 @@ def save_daily_trade(csv_path):
 if __name__ == '__main__':
 
     csv_path = '/Users/brianlu/side-projects/ark-etf-website/arketfdata/03-25-2021_dailytrade.csv'
-
-    save_to_db(csv_path)
