@@ -1,0 +1,69 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div>
+        <h1> PRNT ETF DAILY TRADE</h1> 
+        Daily trade records from ARK. The information is provided by ARK!<br>
+
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <a href="{% url 'main-dailytrade' %}"><button type="button" class="btn btn-outline-dark">ALL</button></a>
+            <a href="{% url 'main-dailytrade-arkk' %}"><button type="button" class="btn btn-outline-dark">ARKK</button></a>
+            <a href="{% url 'main-dailytrade-arkq' %}"><button type="button" class="btn btn-outline-dark">ARKQ</button></a>
+            <a href="{% url 'main-dailytrade-arkf' %}"><button type="button" class="btn btn-outline-dark">ARKF</button></a>
+            <a href="{% url 'main-dailytrade-arkg' %}"><button type="button" class="btn btn-outline-dark">ARKG</button></a>
+            <a href="{% url 'main-dailytrade-arkw' %}"><button type="button" class="btn btn-outline-dark">ARKW</button></a>
+            <a href="{% url 'main-dailytrade-arkx' %}"><button type="button" class="btn btn-outline-dark">ARKX</button></a>
+            <a href="{% url 'main-dailytrade-prnt' %}"><button type="button" class="btn btn-outline-dark">PRNT</button></a>
+            <a href="{% url 'main-dailytrade-izrl' %}"><button type="button" class="btn btn-outline-dark">IZRL</button></a>
+        </div>
+    </div>   
+    <div>
+        <br>
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-dark">
+                    <th scope="col">Company</th>
+                    <th scope="col">Ticker</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Direction</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Shares</th>
+                    <th scope="col">Funds</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for trade in trades %}
+                    {% if trade.direction == 'Buy' %}
+                        <tr class="table-success">
+                            <th scope="row" name="name">
+                                <a href="">
+                                    <p  class="text-info">{{ trade.stock.name }}</p>
+                                </a>
+                            </th>
+                            <td name="ticker">{{ trade.stock.ticker }}</td>
+                            <td name="date">{{ trade.date | date:"F d, Y"}}</td>
+                            <td name="direction">Buy</td>
+                            <td name="price">{{ trade.stock.price }}</td>
+                            <td name="share">{{ trade.shares }}</td>
+                            <td name="fund">{{ trade.fund }}</td>
+                        </tr>
+                    {% else %}
+                        <tr class="table-danger">
+                            <th scope="row" name="name">
+                                <a href="">
+                                    <p  class="text-info">{{ trade.stock.name }}</p>
+                                </a>
+                            </th>
+                            <td name="ticker">{{ trade.stock.ticker }}</td>
+                            <td name="date">{{ trade.date | date:"F d, Y"}}</td>
+                            <td name="direction">Sell</td>
+                            <td name="price">{{ trade.stock.price }}</td>
+                            <td name="share">{{ trade.shares }}</td>
+                            <td name="fund">{{ trade.fund }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock content %}
