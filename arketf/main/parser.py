@@ -2,6 +2,8 @@ import pandas as pd
 from .models import *
 import yfinance as yf
 from datetime import datetime
+from os import listdir
+import pytz
 
 #TODO: Fix updating price twice if there are two same ticker trades per date!
 #TODO: Fix efficiency? Maybe?
@@ -58,7 +60,7 @@ def save_daily_trade(csv_path):
 
             Trade.objects.create(
                 stock = Stock.objects.get(cusip = row.CUSIP),
-                date = datetime.strptime(row.Date, '%m/%d/%Y'),
+                date = datetime.strptime(row.Date, '%m/%d/%Y').replace(tzinfo=pytz.timezone('America/New_York')),
                 direction = row.Direction,
                 shares = int(row.Shares.replace(',', '')),
                 fund = Fund.objects.get(ticker = row.Fund), #TODO: if fund does not exist create one?
@@ -69,22 +71,56 @@ def save_daily_trade(csv_path):
             
             print('Creating ' + row.Ticker + ' Stock Object!')
             stock_info = yf.Ticker(row.Ticker).info
+
+            if 'previousClose' in stock_info.keys():
+                price = stock_info.get('previousClose')
+            else:
+                price = 0.0
+
+            if 'marketCap' in stock_info.keys():
+                market_cap = stock_info.get('marketCap')
+            else:
+                market_cap = 0.0
+
+        
             Stock.objects.create(
                 name = row.Company, 
                 ticker = row.Ticker,
-                price = stock_info.get('previousClose'),
-                market_cap = stock_info.get('marketCap'),
+                price = price,
+                market_cap = market_cap,
                 cusip = row.CUSIP
                 )
 
             Trade.objects.create(
                 stock = Stock.objects.get(cusip = row.CUSIP),
-                date = datetime.strptime(row.Date, '%m/%d/%Y'),
+                date = datetime.strptime(row.Date, '%m/%d/%Y').replace(tzinfo=pytz.timezone('America/New_York')),
                 direction = row.Direction,
                 shares = int(row.Shares.replace(',', '')),
                 fund = Fund.objects.get(ticker = row.Fund), #TODO: if fund does not exist create one?
                 etf_percent = float(row[8])
             )
+
+def get_file_path(data_storage_path):
+    
+    files = listdir(data_storage_path)
+    files_list = []
+    date_list = []
+
+    for t in Trade.objects.all():
+        if t.date not in date_list:
+            date_list.append(t.date)
+
+    for f in files:
+        if ('.csv' in f):
+            date = f.split("_")[0] 
+            date = datetime.strptime(date, '%m-%d-%Y').replace(tzinfo=pytz.timezone('America/New_York'))
+            if date not in date_list:
+                files_list.append(data_storage_path+f)
+    
+    return files_list
+
+
+
 
 if __name__ == '__main__':
 
