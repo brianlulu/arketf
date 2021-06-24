@@ -25,7 +25,7 @@
                     <th scope="col">Ticker</th>
                     <th scope="col">Date</th>
                     <th scope="col">Direction</th>
-                    <th scope="col">Price</th>
+                    <!-- <th scope="col">Price</th> -->
                     <th scope="col">Shares</th>
                     <th scope="col">Funds</th>
 
@@ -43,7 +43,7 @@
                             <td name="ticker">{{ trade.stock.ticker }}</td>
                             <td name="date">{{ trade.date | date:"F d, Y"}}</td>
                             <td name="direction">Buy</td>
-                            <td name="price">{{ trade.stock.price }}</td>
+                            <!-- <td name="price">{{ trade.stock.price }}</td> -->
                             <td name="share">{{ trade.shares }}</td>
                             <td name="fund">{{ trade.fund }}</td>
                         </tr>
@@ -57,7 +57,7 @@
                             <td name="ticker">{{ trade.stock.ticker }}</td>
                             <td name="date">{{ trade.date | date:"F d, Y"}}</td>
                             <td name="direction">Sell</td>
-                            <td name="price">{{ trade.stock.price }}</td>
+                            <!-- <td name="price">{{ trade.stock.price }}</td> -->
                             <td name="share">{{ trade.shares }}</td>
                             <td name="fund">{{ trade.fund }}</td>
                     {% endif %}
