@@ -2,10 +2,42 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import *
+import json
+
+
 
 def home(request):
 
-    return render(request, 'main/home.html', {'title': 'Home'})
+    labels = []
+    data = []
+    remain_holding_weight = 0.0
+    remain_holding_label = "Other"
+
+    arkk_obj = Fund.objects.get(ticker = 'ARKK')
+
+    holdings = Holding.objects.filter(fund = arkk_obj).order_by('-weight')[:10]
+    remain_holding = Holding.objects.filter(fund = arkk_obj).order_by('-weight')[10:]
+
+    for h in holdings:
+        labels.append(h.stock.ticker)
+        data.append(float(h.weight))
+
+
+    for r in remain_holding:
+        remain_holding_weight += float(r.weight)
+    
+    data.append(remain_holding_weight)
+    labels.append(remain_holding_label)
+
+    return render(
+        request, 
+        'main/home.html', 
+        {
+            'title': 'Home',
+            'labels': json.dumps(labels),
+            'data': json.dumps(data),
+        }
+    )
 
 def about(request):
     return render(request, 'main/about.html', {'title': 'About'})

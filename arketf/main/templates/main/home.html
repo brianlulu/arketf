@@ -1,7 +1,59 @@
 {% extends "main/base.html" %}
 {% block content %}
     <div>
-        <h2>ARK ETF HOME</h2> 
+        <h2>ARK ETF HOME</h2><br> 
     </div>
+
+    <div class="container" style="display: flex;">
+        <div style="width: 33%;">
+            <div>
+                <canvas id="pieChart"></canvas>
+            </div>          
+        </div>
+        <div style="flex-grow: 1;">
+            <div>
+                <canvas id="pieChart2"></canvas>
+            </div>   
+        </div>
+        <div style="flex-grow: 1;">
+  
+        </div>
+    </div>
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        var labels = {{ labels|safe }};
+        var data = {
+            labels: labels,
+            datasets: [{
+                label: 'ARKK Holding',
+                data: {{ data|safe }},
+                backgroundColor: [
+                '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+                ],
+                hoverOffset: 10
+            }]
+        };
+
+        const config = {
+        type: 'doughnut',
+        data: data,
+        };
+    
+        var pieChart = new Chart(
+        document.getElementById('pieChart'),
+        config
+        );
+
+        var pieChart2 = new Chart(
+        document.getElementById('pieChar2'),
+        config
+        );
+    
+      </script>
 
 {% endblock content %}
