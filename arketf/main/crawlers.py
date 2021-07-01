@@ -5,8 +5,6 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import requests
 
-
-
 def gmail_login(driver, username, password):
 
     driver.get("https://accounts.google.com/")
@@ -70,7 +68,33 @@ def stock_info(ticker):
 
     return html
     
+def holding_csv(driver, fund = ['all']):
+    
+    url_dict = {
+        'arkk': 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv',
+        'arkq': 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_AUTONOMOUS_TECHNOLOGY_&_ROBOTICS_ETF_ARKQ_HOLDINGS.csv',
+        'arkw': 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_NEXT_GENERATION_INTERNET_ETF_ARKW_HOLDINGS.csv',
+        'arkg': 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_GENOMIC_REVOLUTION_MULTISECTOR_ETF_ARKG_HOLDINGS.csv',
+        'arkf': 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_FINTECH_INNOVATION_ETF_ARKF_HOLDINGS.csv',
+        'arkx': 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_SPACE_EXPLORATION_&_INNOVATION_ETF_ARKX_HOLDINGS.csv',
+        'prnt': 'https://ark-funds.com/wp-content/fundsiteliterature/csv/THE_3D_PRINTING_ETF_PRNT_HOLDINGS.csv',
+        'izrl': 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_ISRAEL_INNOVATIVE_TECHNOLOGY_ETF_IZRL_HOLDINGS.csv',
+    }
+    
+    if 'all' in fund:
+        for key in url_dict:
+            driver.get(url_dict.get(key))
+            time.sleep(2)
+            print(key + " downloaded!")
+    else:
+        for key in fund:
+            driver.get(url_dict.get(key))
+            time.sleep(2)
+            print(key + " downloaded!")
+        
+    
 
+    
 
 if __name__ == "__main__":
     username = "arketftracker8787"
@@ -79,24 +103,40 @@ if __name__ == "__main__":
     data_list = []
 
     PATH = "/Users/brianlu/side-projects/ark-etf-website/chromedriver"
+    d_path = '/Users/brianlu/side-projects/ark-etf-website/arketfdata/holdings'
+    url = 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv'
+    
 
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--incognito")
+    prefs = {'download.default_directory' : d_path}
+    chrome_options.add_experimental_option('prefs', prefs)
 
     driver = webdriver.Chrome(PATH, options = chrome_options)
 
-    gmail_login(driver, username, password)
+    holding_csv(driver)
 
 
-    daily_mail = daily_search(driver, email_search)
 
-    table = daily_mail.find_elements_by_tag_name('tr')
 
-    for rows in table:
-        row = rows.find_elements_by_tag_name('td')
-        if(row[1].text != "Fund"):
-            for data in row:
-                print(data.text)
+
+    # urllib.request.urlretrieve('https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv', '/Users/brianlu/side-projects/ark-etf-website/arketfdata/holdings/arkk_holding.csv')
+
+    url = 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_INNOVATION_ETF_ARKK_HOLDINGS.csv'
+    
+
+    # gmail_login(driver, username, password)
+
+
+    # daily_mail = daily_search(driver, email_search)
+
+    # table = daily_mail.find_elements_by_tag_name('tr')
+
+    # for rows in table:
+    #     row = rows.find_elements_by_tag_name('td')
+    #     if(row[1].text != "Fund"):
+    #         for data in row:
+    #             print(data.text)
         
 
 
