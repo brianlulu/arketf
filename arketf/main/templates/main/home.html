@@ -4,22 +4,35 @@
         <h2>ARK ETF HOME</h2><br> 
     </div>
 
-    <div class="container" style="display: flex;">
-        <div style="width: 33%;">
-            <div>
-                <canvas id="pieChart"></canvas>
-            </div>          
+    <div class="row">
+        <div class="col">
+            <h3>ARKK</h3>
+            <canvas id="pieChart"></canvas>
         </div>
-        <div style="flex-grow: 1;">
-            <div>
-                <canvas id="pieChart2"></canvas>
-            </div>   
+        <div class="col">
+            <h3>ARKQ</h3>
+            <canvas id="pieChart2"></canvas>
         </div>
-        <div style="flex-grow: 1;">
-  
+        <div class="col">
+            <h3>ARK</h3>
+            <canvas id="pieChart1"></canvas>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col">
+            <h3>ARK</h3>
+            <canvas id="pieChart"></canvas>
+        </div>
+        <div class="col">
+            <h3>ARK</h3>
+            <canvas id="pieChart2"></canvas>
+        </div>
+        <div class="col">
+            <h3>ARK</h3>
+            <canvas id="pieChart1"></canvas>
+        </div>
+    </div>
 
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -27,21 +40,39 @@
     <script>
 
         var labels = {{ labels|safe }};
+        var labels2 = {{ labels2|safe }};
+
         var data = {
             labels: labels,
             datasets: [{
                 label: 'ARKK Holding',
                 data: {{ data|safe }},
                 backgroundColor: [
-                '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+                '#a851a6', '#eaa352', '#7f5b54', '#2a7c22', '#afa0ab' , '#51058c', '#1839af', '#8b9bf4', '#157bb2','#662953', '#692987'
                 ],
                 hoverOffset: 10
             }]
         };
 
+        var data2 = {
+            labels: labels2,
+            datasets: [{
+                label: 'ARKK Holding',
+                data: {{ data2|safe }},
+                backgroundColor: [
+                '#a851a6', '#eaa352', '#7f5b54', '#2a7c22', '#afa0ab' , '#51058c', '#1839af', '#8b9bf4', '#157bb2','#662953', '#692987'
+                ],
+                hoverOffset: 10
+            }]
+        };
         const config = {
         type: 'doughnut',
         data: data,
+        };
+
+        const config2 = {
+        type: 'doughnut',
+        data: data2,
         };
     
         var pieChart = new Chart(
@@ -50,8 +81,8 @@
         );
 
         var pieChart2 = new Chart(
-        document.getElementById('pieChar2'),
-        config
+        document.getElementById('pieChart2'),
+        config2
         );
     
       </script>

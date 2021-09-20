@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import *
 import json
@@ -8,26 +8,15 @@ import json
 
 def home(request):
 
-    labels = []
-    data = []
-    remain_holding_weight = 0.0
-    remain_holding_label = "Other"
-
+    # figure out how to query this smarter
     arkk_obj = Fund.objects.get(ticker = 'ARKK')
+    arkq_obj = Fund.objects.get(ticker = 'ARKQ')
 
-    holdings = Holding.objects.filter(fund = arkk_obj).order_by('-weight')[:10]
-    remain_holding = Holding.objects.filter(fund = arkk_obj).order_by('-weight')[10:]
+    arkk_data = getTopTen(arkk_obj)
+    arkq_data = getTopTen(arkq_obj)
 
-    for h in holdings:
-        labels.append(h.stock.ticker)
-        data.append(float(h.weight))
-
-
-    for r in remain_holding:
-        remain_holding_weight += float(r.weight)
-    
-    data.append(remain_holding_weight)
-    labels.append(remain_holding_label)
+    data, labels = arkk_data[0], arkk_data[1]
+    data2, labels2 = arkq_data[0], arkq_data[1]
 
     return render(
         request, 
@@ -36,6 +25,8 @@ def home(request):
             'title': 'Home',
             'labels': json.dumps(labels),
             'data': json.dumps(data),
+            'labels2': json.dumps(labels2),
+            'data2': json.dumps(data2),
         }
     )
 
@@ -218,3 +209,21 @@ def izrl(request):
 
     return render(request, 'main/dailytrade/izrl.html', {'title': 'IZRL-DailyTrade', 'page_obj': page_obj})
 
+
+def getTopTen(fund_obj):
+    remain_holding_weight = 0.0
+    remain_holding_label = "Other"
+
+    holdings = Holding.objects.filter(fund = fund_obj).order_by('-weight')[:10]
+    remain_holding = Holding.objects.filter(fund = fund_obj).order_by('-weight')[10:]
+
+    labels = [s.stock.ticker for s in holdings]
+    data = [float(h.weight) for h in holdings]
+
+    for r in remain_holding:
+        remain_holding_weight += float(r.weight)
+    
+    data.append(remain_holding_weight)
+    labels.append(remain_holding_label)
+
+    return (data, labels) # change to dictionary
