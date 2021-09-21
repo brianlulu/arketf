@@ -11,12 +11,24 @@ def home(request):
     # figure out how to query this smarter
     arkk_obj = Fund.objects.get(ticker = 'ARKK')
     arkq_obj = Fund.objects.get(ticker = 'ARKQ')
+    arkf_obj = Fund.objects.get(ticker = 'ARKF')
+    arkg_obj = Fund.objects.get(ticker = 'ARKG')
+    arkw_obj = Fund.objects.get(ticker = 'ARKW')
+    arkx_obj = Fund.objects.get(ticker = 'ARKX')
 
     arkk_data = getTopTen(arkk_obj)
     arkq_data = getTopTen(arkq_obj)
+    arkf_data = getTopTen(arkf_obj)
+    arkg_data = getTopTen(arkg_obj)
+    arkw_data = getTopTen(arkw_obj)
+    arkx_data = getTopTen(arkx_obj)
 
     data, labels = arkk_data[0], arkk_data[1]
     data2, labels2 = arkq_data[0], arkq_data[1]
+    data3, labels3 = arkf_data[0], arkf_data[1]
+    data4, labels4 = arkg_data[0], arkg_data[1]
+    data5, labels5 = arkw_data[0], arkw_data[1]
+    data6, labels6 = arkx_data[0], arkx_data[1]
 
     return render(
         request, 
@@ -27,6 +39,14 @@ def home(request):
             'data': json.dumps(data),
             'labels2': json.dumps(labels2),
             'data2': json.dumps(data2),
+            'labels3': json.dumps(labels3),
+            'data3': json.dumps(data3),
+            'labels4': json.dumps(labels4),
+            'data4': json.dumps(data4),
+            'labels5': json.dumps(labels5),
+            'data5': json.dumps(data5),
+            'labels6': json.dumps(labels6),
+            'data6': json.dumps(data6),
         }
     )
 

@@ -14,23 +14,23 @@
             <canvas id="pieChart2"></canvas>
         </div>
         <div class="col">
-            <h3>ARK</h3>
-            <canvas id="pieChart1"></canvas>
+            <h3>ARKF</h3>
+            <canvas id="pieChart3"></canvas>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <h3>ARK</h3>
-            <canvas id="pieChart"></canvas>
+            <h3>ARKG</h3>
+            <canvas id="pieChart4"></canvas>
         </div>
         <div class="col">
-            <h3>ARK</h3>
-            <canvas id="pieChart2"></canvas>
+            <h3>ARKW</h3>
+            <canvas id="pieChart5"></canvas>
         </div>
         <div class="col">
-            <h3>ARK</h3>
-            <canvas id="pieChart1"></canvas>
+            <h3>ARKX</h3>
+            <canvas id="pieChart6"></canvas>
         </div>
     </div>
 
@@ -41,15 +41,21 @@
 
         var labels = {{ labels|safe }};
         var labels2 = {{ labels2|safe }};
+        var labels3 = {{ labels3|safe }};
+        var labels4 = {{ labels4|safe }};
+        var labels5 = {{ labels5|safe }};
+        var labels6 = {{ labels6|safe }};
+
+        var colors = [
+                '#a851a6', '#eaa352', '#7f5b54', '#2a7c22', '#afa0ab' , '#51058c', '#1839af', '#8b9bf4', '#157bb2','#662953', '#692987'
+                ]
 
         var data = {
             labels: labels,
             datasets: [{
                 label: 'ARKK Holding',
                 data: {{ data|safe }},
-                backgroundColor: [
-                '#a851a6', '#eaa352', '#7f5b54', '#2a7c22', '#afa0ab' , '#51058c', '#1839af', '#8b9bf4', '#157bb2','#662953', '#692987'
-                ],
+                backgroundColor: colors,
                 hoverOffset: 10
             }]
         };
@@ -57,14 +63,53 @@
         var data2 = {
             labels: labels2,
             datasets: [{
-                label: 'ARKK Holding',
+                label: 'ARKQ Holding',
                 data: {{ data2|safe }},
-                backgroundColor: [
-                '#a851a6', '#eaa352', '#7f5b54', '#2a7c22', '#afa0ab' , '#51058c', '#1839af', '#8b9bf4', '#157bb2','#662953', '#692987'
-                ],
+                backgroundColor: colors,
                 hoverOffset: 10
             }]
         };
+
+        var data3 = {
+            labels: labels3,
+            datasets: [{
+                label: 'ARKF Holding',
+                data: {{ data3|safe }},
+                backgroundColor: colors,
+                hoverOffset: 10
+            }]
+        };
+
+        var data4 = {
+            labels: labels4,
+            datasets: [{
+                label: 'ARKG Holding',
+                data: {{ data4|safe }},
+                backgroundColor: colors,
+                hoverOffset: 10
+            }]
+        };
+
+        var data5 = {
+            labels: labels5,
+            datasets: [{
+                label: 'ARKW Holding',
+                data: {{ data5|safe }},
+                backgroundColor: colors,
+                hoverOffset: 10
+            }]
+        };
+        
+        var data6 = {
+            labels: labels6,
+            datasets: [{
+                label: 'ARKX Holding',
+                data: {{ data6|safe }},
+                backgroundColor: colors,
+                hoverOffset: 10
+            }]
+        };
+
         const config = {
         type: 'doughnut',
         data: data,
@@ -73,6 +118,26 @@
         const config2 = {
         type: 'doughnut',
         data: data2,
+        };
+
+        const config3 = {
+        type: 'doughnut',
+        data: data3,
+        };
+
+        const config4 = {
+        type: 'doughnut',
+        data: data4,
+        };
+
+        const config5 = {
+        type: 'doughnut',
+        data: data5,
+        };
+
+        const config6 = {
+        type: 'doughnut',
+        data: data6,
         };
     
         var pieChart = new Chart(
@@ -83,6 +148,26 @@
         var pieChart2 = new Chart(
         document.getElementById('pieChart2'),
         config2
+        );
+
+        var pieChart3 = new Chart(
+        document.getElementById('pieChart3'),
+        config3
+        );
+
+        var pieChart4 = new Chart(
+        document.getElementById('pieChart4'),
+        config4
+        );
+
+        var pieChart5 = new Chart(
+        document.getElementById('pieChart5'),
+        config5
+        );
+
+        var pieChart6 = new Chart(
+        document.getElementById('pieChart6'),
+        config6
         );
     
       </script>
