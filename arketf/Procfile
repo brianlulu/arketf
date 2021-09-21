@@ -1,1 +1,2 @@
-web: gunicorn arketf.arketf.wsgi
+web: gunicorn arketf.wsgi
+
