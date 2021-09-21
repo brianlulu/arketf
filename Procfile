@@ -1,1 +1,3 @@
-web: gunicorn arketf.wsgi
+web: gunicorn arketf.wsgi:application --log-file - --log-level debug
+python manage.py collectstatic --noinput
+manage.py migrate
