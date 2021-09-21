@@ -1,2 +1,2 @@
-web: gunicorn arketf.wsgi
+web: gunicorn --pythonpath arketf arketf.wsgi
 
