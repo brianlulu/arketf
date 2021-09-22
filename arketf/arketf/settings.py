@@ -21,12 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'aqo(4j1^)o^4e$e^&p=q%%1xzsg^*-zu)lo*ffpevz3y3*5b^u'
-
-# SECRET_KEY = os.environ.get('ARKETF_SECRET_KEY')
+SECRET_KEY = os.environ.get('ARKETF_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
 ALLOWED_HOSTS = ['arketf.herokuapp.com']
 
