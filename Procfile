@@ -1,1 +1,1 @@
-web: sh ./arketf/run.sh
+web: gunicorn --pythonpath arketf arketf.wsgi
