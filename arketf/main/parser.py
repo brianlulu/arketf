@@ -1,4 +1,5 @@
 import pandas as pd
+from yfinance import ticker
 from .models import *
 import yfinance as yf
 from datetime import datetime
@@ -56,7 +57,7 @@ def save_daily_trade(csv_path):
         
         print(str(index) + 'th data entry!')
         # if stock exist in db, then update price
-        if Stock.objects.filter(cusip = row.CUSIP).exists() or Stock.objects.filter(company = row.Ticker).exists(): 
+        if Stock.objects.filter(cusip = row.CUSIP).exists() or Stock.objects.filter(ticker = row.Ticker).exists(): 
 
             Trade.objects.create(
                 stock = Stock.objects.get(cusip = row.CUSIP),
